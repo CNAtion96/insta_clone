@@ -33,8 +33,7 @@
                        return $http({
                             method:"POST",
                             url: "http://instagramcloneclass.herokuapp.com/images/vote",
-                            data: data,
-                            headers:{X_CSRF_TOKEN: 'chris'},
+                            data: {imageid:data},
                        })
                    }
 
