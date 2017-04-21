@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="insta">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Satisfy|News+Cycle" rel="stylesheet">
+        <link href="css/main.css" rel="stylesheet">
+    </head>
+    <body>
+        <div  class="container-fluid row" ng-controller="instaController as vm">
+            <header class="col-md-12">
+                <!--Logo-->
+                <div class="col-md-3 col-md-offset-1">
+                    <h2><i class="fa fa-instagram" aria-hidden="true"></i></h2>
+                    <h2><span>|</span>    Instagram</h2>
+                </div>
+                <!--Search box-->
+                <div class="col-md-3 col-md-offset-1 search">
+                    <form>
+                        <input type="text" placeholder="Search">
+                    </form>
+                </div>
+                <!--icons for nav-->
+                <div class="col-md-3 col-md-offset-1 icons">
+                    <h2><i class="fa fa-compass" aria-hidden="true"></i></h2>
+                    <h2><i class="fa fa-heart-o" aria-hidden="true"></i></h2>
+                    <h2><i class="fa fa-user-o" aria-hidden="true"></i></h2>
+                </div>
+                <!-- use for clickable heart <i class="fa fa-heart" aria-hidden="true"></i>-->
+            </header>
+            <!--aside to add a new image-->
+            <div class="col-md-3 aside">
+                <div class="addImage col-md-2">
+                    <h3>Add an Image</h3>
+                    <form novalidate name="imageDetails" ng-submit="vm.addImage(imageDetails.$valid)">
+                        <input type="text" placeholder="Title" ng-model="vm.image.title" required>
+                        <textarea placeholder="Description" ng-model="vm.image.description" required></textarea>
+                        <input type="text" placeholder="Image URL" ng-model="vm.image.url" required>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+            <!--Main content i.e the images-->
+            <div class="col-md-9 main">
+                <!--Container for each image-->
+                <div class="col-md-9 imageContainer" ng-repeat="image in vm.images">
+                    <!--Header for each image-->
+                    <div class="col-md-12 imageHeader">
+                        <h4>{{image.title}}</h4>
+                    </div>
+                    <!--The images-->
+                    <div class="image" ng-click="vm.oneImage(image._id)" data-toggle="modal" data-target="#myModal">
+                        <img src="{{image.url}}">
+                    </div>
+                    <!--Modal-->
+                    <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content" ng-repeat="image in vm.singleImage">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">{{image.title}}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="{{image.url}}">
+                                </div>
+                                <div class="modal-footer">
+                                    <h4>{{image.likes}} likes</h4>
+                                    <h4>{{image.description}}</h4>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--Footer for each image-->
+                    <div class="col-md-12 imageFooter">
+                        <!--displaying the number of likes-->
+                        <h4><span>{{image.likes}} likes</span></h4>
+                        <!--image description-->
+                        <p><span>{{image.title}}</span> {{image.description}}</p>
+                        <hr>
+                        <div class="col-md-12 bOFooter">
+                            <h2 class="col-md-1" ng-click="vm.like(image._id); like()" ng-class="{'liked': isLiked}" ><i class="fa fa-heart" aria-hidden="true"></i></h2>
+                            <input class="col-md-10" type="text" placeholder="Add a comment...">
+                            <h2 class="ellipsis col-md-1"><i class="fa fa-ellipsis-h" aria-hidden="true"></i></h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    
+
+        <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src='js/main.js'></script>
+        <script src="js/controllers/instaController.js"></script>
+        <script src="js/services/API.js"></script>
+    </body>
+</html>
